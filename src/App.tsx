@@ -28,15 +28,15 @@ function App() {
             <Route path="/locations">
               <Locations />
             </Route>
-            <Route path="/location/edit/:topicId">
+            {/*<Route path={`${match.path}/edit/:topicId`}>
               <LocationForm />
             </Route>
-            <Route path="/location/read/:topicId">
+            <Route path={`${match.path}/read/:topicId`}>
               <About />
-            </Route>
-            <Route path="/location/new">
+  </Route>
+            <Route path="/locations/new">
               <LocationForm />
-            </Route>
+            </Route>*/}
             <Route path="/">
               <Home />
             </Route>

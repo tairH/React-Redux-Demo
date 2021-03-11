@@ -5,20 +5,40 @@ import {
     Route,
     Link,
     useRouteMatch,
-    useParams
+    matchPath,
+    useParams,
+    useLocation
 } from "react-router-dom";
 import { LocationContext } from "../contexts/LocationContext";
 
-function Header() {
+const Header = (props: any) => {
 
-    
+
     const { location } = useContext(LocationContext);
-    
+
     const [selectedLocation, setSelectedLocation] = useState(location);
-    
+
+    const matchEdit = useRouteMatch('/locations/:id/edit');
+    //console.log("edit match", matchEdit);
+    const matchAdd = useRouteMatch('/locations/new');
+    //console.log("add match", matchEdit);
+
+    const [editMatch, setEditMatch] = useState(matchEdit);
+    const [addMatch, setAddMatch] = useState(matchAdd);
+
+    const mathPath = useLocation();
+
+    useEffect(() => {
+        // The location has changed
+        setEditMatch(matchEdit);
+        setAddMatch(matchAdd);
+
+    }, [mathPath])
+
     useEffect(() => {
         setSelectedLocation(location);
-    }, [location])
+    }, [location]);
+
     return (
         <>
             <nav>
@@ -32,21 +52,22 @@ function Header() {
                     <li>
                         <Link to="/locations">Locations</Link>
                         <ul>
+                        {addMatch?.isExact && 
                             <li>
-                                <Link to={`/location/new`}>Add New Location</Link>
-                            </li>
-                           
+                                 <Link to={`/locations/new`}>Add New Location</Link>
+                            </li>}
+
                             {selectedLocation && (<>
-                                <li><Link to={`/location/edit/${selectedLocation}`}>Edit </Link>  </li>
-                                <li><Link to={`/location/delete/${selectedLocation}`}>Delete </Link>  </li></>
+                                {editMatch?.isExact && <li><Link to={`/locations/${selectedLocation}/edit`}>Edit </Link>  </li>}
+                                <li><Link to={`/${selectedLocation}/delete`}>Delete </Link>  </li></>
                             )}
                         </ul>
                     </li>
 
                 </ul>
             </nav>
-          
-            </>
+
+        </>
     );
 }
 export default Header;

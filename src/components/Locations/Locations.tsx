@@ -42,7 +42,7 @@ console.log("locatioms from redux",_locations);
         {_locations && _locations &&
           _locations.map(l => {
             return <li key={l.id}>
-              <Link to={`${match.url}/read/${l.id}`}>{l.description}</Link></li>;
+              <Link to={`${match.url}/${l.id}/read`}>{l.description}</Link></li>;
           })}
       </ul>
 
@@ -51,10 +51,10 @@ console.log("locatioms from redux",_locations);
           2nd <Route> here as an "index" page for all topics, or
           the page that is shown when no topic is selected */}
       <Switch>
-        <Route path={`${match.path}/read/:locationId`}>
+        <Route path={`${match.path}/:locationId/read`}>
           <Location />
         </Route>
-        <Route path={`${match.path}/edit/:locationId`}>
+        <Route path={`${match.path}/:locationId/edit`}>
           <LocationForm />
         </Route>
         <Route path={`${match.path}/new`}>

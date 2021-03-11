@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { ILocation } from "../../store/actions";
@@ -12,6 +12,7 @@ import {
     Field,
     FieldProps,
 } from 'formik';
+import { LocationContext } from "../../contexts/LocationContext";
 
 
 type Props = {
@@ -19,29 +20,30 @@ type Props = {
 }
 export const LocationForm: React.FC<Props> = () => {
 
-    let { locationId }: any = useRouteMatch('/location/edit/:topicId');//useParams();
-    console.log("id url param:", locationId);
-
-    const [curLocation, setLocation] = useState<ILocation>();
+    let { locationId }: any = useParams();//useRouteMatch('/location/edit/:topicId');
+    //console.log("id url param:", locationId);
+    const { setLocation } = useContext(LocationContext);
+    const [curLocation, setLocationState] = useState<ILocation>();
 
     //onDestroy
     useEffect(() => {
         return () => {
             setLocation(undefined);
+            setLocationState(undefined);
         }
     }, []);
     //Hook Redux
     const locations = useSelector(
         (state: any) => state.locations as ILocation[]);
-    
+
     const dispatch = useDispatch();
 
     //Initialize state
     useEffect(() => {
-
+        setLocation(locationId);
         var _location = locations.filter(l => l.id == locationId)[0];
         console.log("currentLocation", _location);
-        setLocation(_location);
+        setLocationState(_location);
 
     }, [locationId]);
 
@@ -53,7 +55,7 @@ export const LocationForm: React.FC<Props> = () => {
     });
     type ILocation = Yup.InferType<typeof LocationSchema>;
 
-    
+
 
     return (
         <div>
@@ -65,7 +67,7 @@ export const LocationForm: React.FC<Props> = () => {
                 enableReinitialize={true}
                 onSubmit={(values, actions) => {
                     console.log({ values, actions });
-                    setLocation(values);
+                    setLocationState(values);
                     if (!(curLocation && curLocation.id)) {
                         dispatch(add(values));
                     }
@@ -85,8 +87,8 @@ export const LocationForm: React.FC<Props> = () => {
                         <label htmlFor="description">Description</label>
                         <Field as="textarea" id="description" name="description" placeholder="Enter Localized Post" />
                     </div>
-                    <button type="submit" disabled={!(curLocation && curLocation.id) ? true : false}>Save</button>
-                    <button type="submit" disabled={!(curLocation === undefined || curLocation.id === 0) ? true : false}>Add</button>
+                    {((curLocation && curLocation.id) ? true : false) && <button type="submit" >Save</button>}
+                    {((curLocation === undefined || curLocation.id === 0) ? true : false) && <button type="submit">Add</button>}
                 </Form>
             </Formik>
 

@@ -1,12 +1,14 @@
-# CategoriesBook
-
-A React Redux application that manage locations. Users can create, edit, delete and view Locations and their Categories. 
+# Categories Locations Boook React Redux application that manage locations. Users can create, edit, delete and view Locations and their Categories. 
 
 Uses:
+* TypeScript
 * React
 * Redux
+* React Hooks
 * React Router
 * Redux Toolkit
+* Formik & Yup
+* React Context
 
 ## What articles and posts did I rely on?
 
