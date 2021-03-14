@@ -52,13 +52,13 @@ const Header = (props: any) => {
                     <li>
                         <Link to="/locations">Locations</Link>
                         <ul>
-                        {addMatch?.isExact && 
+                        {!(addMatch?.isExact) && 
                             <li>
                                  <Link to={`/locations/new`}>Add New Location</Link>
                             </li>}
 
                             {selectedLocation && (<>
-                                {editMatch?.isExact && <li><Link to={`/locations/${selectedLocation}/edit`}>Edit </Link>  </li>}
+                                {!(editMatch?.isExact) && <li><Link to={`/locations/${selectedLocation}/edit`}>Edit </Link>  </li>}
                                 <li><Link to={`/${selectedLocation}/delete`}>Delete </Link>  </li></>
                             )}
                         </ul>
